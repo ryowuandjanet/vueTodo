@@ -2,25 +2,38 @@
   <div class="todo-container">
     <div class="todo-wrap">
       <Header />
-      <List />
+      <List :todos="todos" />
       <Footer />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, reactive, toRefs } from 'vue'
   import Header from './components/Header.vue'
   import List from './components/List.vue'
   import Footer from './components/Footer.vue'
+  import { Todo } from './types/todo'
+ 
   export default defineComponent ({
     name: 'App',
     components: {
       Header,
       List,
       Footer
+    },
+    setup(){
+      const state = reactive<{ todos: Todo[]}>({
+        todos:[
+          { id:1, title: "跑步", isCompleted: false },
+          { id:2, title: "買飯", isCompleted: true },
+          { id:3, title: "上課", isCompleted: true }
+        ]
+      })
+      return{
+        ...toRefs(state)
+      }
     }
-
   })
 </script>
 
