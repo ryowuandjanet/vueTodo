@@ -1,7 +1,7 @@
 <template>
   <div class="todo-container">
     <div class="todo-wrap">
-      <Header />
+      <Header :addTodo="addTodo" />
       <List :todos="todos" />
       <Footer />
     </div>
@@ -30,8 +30,14 @@
           { id:3, title: "上課", isCompleted: true }
         ]
       })
+
+      const addTodo=(todo: Todo) => {
+        state.todos.unshift(todo)
+      }
+
       return{
-        ...toRefs(state)
+        ...toRefs(state),
+        addTodo
       }
     }
   })
