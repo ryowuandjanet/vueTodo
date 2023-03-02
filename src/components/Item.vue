@@ -1,21 +1,48 @@
 <template>
-  <li>
+  <li 
+    @mouseenter="mouseHandler(true)" 
+    @mouseleave="mouseHandler(false)"
+    :style="{backgroundColor:bgColor, color:myColor}"
+  >
     <label>
       <input type="checkbox" v-model="todo.isCompleted"/>
       <span>{{ todo.title }}</span>
     </label>
-    <button class="btn btn-danger" style="display: none">删除</button>
+    <button class="btn btn-danger" v-show="isShow">删除</button>
   </li>
 </template>
   
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, ref } from "vue";
   import { Todo } from "../types/todo";
 
   export default defineComponent({
     name: "Item",
     props: {
       todo: Object as () => Todo
+    },
+    setup(){
+      const bgColor=ref("white");
+      const myColor=ref("black");
+      const isShow=ref(false)
+
+      const mouseHandler =(flag:boolean) => {
+        if(flag){
+          bgColor.value="pink"
+          myColor.value="green"
+          isShow.value=true
+        }else{
+          bgColor.value="white"
+          myColor.value="black"
+          isShow.value=false
+        }
+      }
+      return{
+        mouseHandler,
+        bgColor,
+        myColor,
+        isShow
+      }
     }
   });
 </script>
@@ -44,7 +71,7 @@
 
   li button {
     float: right;
-    display: none;
+    /* display: none; */
     margin-top: 3px;
   }
 
