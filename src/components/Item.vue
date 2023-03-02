@@ -8,7 +8,7 @@
       <input type="checkbox" v-model="todo.isCompleted"/>
       <span>{{ todo.title }}</span>
     </label>
-    <button class="btn btn-danger" v-show="isShow">删除</button>
+    <button class="btn btn-danger" v-show="isShow" @click="delTodo" >删除</button>
   </li>
 </template>
   
@@ -19,9 +19,20 @@
   export default defineComponent({
     name: "Item",
     props: {
-      todo: Object as () => Todo
+      todo: {
+        type: Object as () => Todo,
+        required: true
+      },
+      deleteTodo: {
+        type: Function,
+        required: true
+      },
+      index: {
+        type: Number,
+        required: true
+      }
     },
-    setup(){
+    setup(props){
       const bgColor=ref("white");
       const myColor=ref("black");
       const isShow=ref(false)
@@ -37,11 +48,17 @@
           isShow.value=false
         }
       }
+
+      const delTodo = () => {
+        props.deleteTodo(props.index)
+      }
+
       return{
         mouseHandler,
         bgColor,
         myColor,
-        isShow
+        isShow,
+        delTodo
       }
     }
   });
