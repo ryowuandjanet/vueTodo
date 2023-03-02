@@ -5,7 +5,7 @@
     :style="{backgroundColor:bgColor, color:myColor}"
   >
     <label>
-      <input type="checkbox" v-model="todo.isCompleted"/>
+      <input type="checkbox" v-model="isComptete"/>
       <span>{{ todo.title }}</span>
     </label>
     <button class="btn btn-danger" v-show="isShow" @click="delTodo" >删除</button>
@@ -13,7 +13,7 @@
 </template>
   
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+  import { computed, defineComponent, ref } from "vue";
   import { Todo } from "../types/todo";
 
   export default defineComponent({
@@ -29,6 +29,10 @@
       },
       index: {
         type: Number,
+        required: true
+      },
+      updateTodo: {
+        type: Function,
         required: true
       }
     },
@@ -53,12 +57,22 @@
         props.deleteTodo(props.index)
       }
 
+      const isComptete = computed({
+        get(){
+          return props.todo.isCompleted
+        },
+        set(val){
+          props.updateTodo(props.todo,val)
+        }
+      })
+
       return{
         mouseHandler,
         bgColor,
         myColor,
         isShow,
-        delTodo
+        delTodo,
+        isComptete
       }
     }
   });

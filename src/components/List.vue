@@ -1,6 +1,12 @@
 <template>
   <ul class="todo-main">
-    <Item v-for="(todo,index) in todos" :key="todo.id" :todo="todo" :deleteTodo="deleteTodo" :index="index" slot-scope=""/>
+    <Item 
+      v-for="(todo,index) in todos" 
+      :key="todo.id" :todo="todo" 
+      :deleteTodo="deleteTodo" 
+      :updateTodo="updateTodo"
+      :index="index" 
+    />
   </ul>
 </template>
   
@@ -12,7 +18,7 @@
     components: {
       Item,
     },
-    props: ['todos','deleteTodo']
+    props: ['todos','deleteTodo','updateTodo']
   });
 </script>
   
